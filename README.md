@@ -1,35 +1,29 @@
 <p align="center">
-  <h3 align="center">TypeScript Template</h3>
+  <h3 align="center">Pass Holder Bot</h3>
 
   <p align="center">
-    A fully-configured TypeScript project template.
+    A bot for verifying Summer Pass Holders at Fiveable.
   </p>
 </p>
 
 ## ℹ️ About The Project
 
-This is a fully-configured TypeScript project template, featuring...
-
-- Yarn for package management and project scripts.
-- A boilerplate TypeScript configuration.
-- Linting and formatting with ESLint, Prettier, and the AirBnB style guide.
-- Integration with Jest for test-driven development.
-- Pre-commit hooks with Husky, CommitLint, and LintStaged.
-- Pre-built GitHub issue templates and workflows.
+This project won't be useful for anyone who doesn't need to verify Summer Pass Holders at Fiveable. Sorry.
 
 ## ⚙️ Installation
 
-1. Click on "use this template" to create your repository.
-2. Use `git clone` to copy the new repository to your machine.
-3. Run `yarn install` to install all of the project dependencies.
+1. Use `git clone` to copy the repository to your machine.
+2. Run `yarn install` to install all of the project dependencies.
+3. Change the environment variables in `.env` to include a bot token, IDs for your server setup, and a prefix.
+4. Run the bot with `yarn run start:dev`, `yarn run start:prod`, or build with `yarn run build` and run with a service like PM2.
 
 ## 🧰 Usage
 
-1. After installing dependencies, you can start coding in the `src` folder.
-2. Setup your unit tests in the `tests` folder, or remove it and uninstall Jest if you don't need it. Make sure to remove all Jest-related packages, including the ESLint plugin, if you won't need it.
-3. Change `README.md` and the `LICENSE` page as needed.
-4. You can use `yarn run lint:fix`, `yarn run format:fix`, and `yarn run test` to ensure your project is healthy.
-5. Ensure your commits meet Conventional Commit requirements, as enforced by Husky and CommitLint. If the hooks did not properly install, run `yarn husky install`.
+1. When a user joins the server, they will be sent a welcome message along with a prompt.
+2. If a user clicks yes, they are prompted for their email address, which is then sent to a queue channel for manual verification.
+3. If a user clicks no, they are given some information about the program.
+4. When a queue entry is verified, the user will be given a role (as specified in the environment variables) and then sent a confirmation message.
+5. If a queue entry is denied, the user will be sent a message prompting them to retry with a different email.
 
 ## 📜 License
 
