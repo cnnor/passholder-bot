@@ -1,7 +1,7 @@
 import { DMChannel, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import type { MessageComponentInteraction, TextChannel, Message, Snowflake, Channel, User } from 'discord.js';
 import { Component } from '../../../structures';
-import { Embeds, isValidEmail, isDMChannel } from '../../../utils';
+import { Embeds, ActionRows, isValidEmail, isDMChannel } from '../../../utils';
 
 export default class YesPassHolderComponent extends Component {
   constructor() {
@@ -23,7 +23,7 @@ export default class YesPassHolderComponent extends Component {
         if (email && isValidEmail(email.content)) {
           resolve(email.content);
         } else {
-          reject(new Error("Sorry, that doesn't appear to be a valid email address."));
+          reject();
         }
       });
     });
@@ -63,8 +63,8 @@ export default class YesPassHolderComponent extends Component {
         channel.send({ embeds: [Embeds.waitForVerification] });
         return true;
       })
-      .catch((err) => {
-        interaction.editReply({ content: err.message });
+      .catch(() => {
+        channel.send({ embeds: [Embeds.invalidEmail], components: [ActionRows.retry] });
         return false;
       });
 
