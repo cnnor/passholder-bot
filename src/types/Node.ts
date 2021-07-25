@@ -2,10 +2,10 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
     TOKEN: string;
-    OWNER_ID: string;
+    OWNER_ID: `${bigint}`;
     PREFIX: string;
-    GUILD_ID: string;
-    CHANNEL_ID: string;
-    ROLE_ID: string;
+    GUILD_ID: `${bigint}`;
+    CHANNEL_ID: `${bigint}`;
+    ROLE_ID: `${bigint}`;
   }
 }

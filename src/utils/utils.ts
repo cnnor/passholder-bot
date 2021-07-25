@@ -1,5 +1,6 @@
 import type { AkairoClient } from 'discord-akairo';
 import type { GuildMember, Snowflake, Channel, DMChannel } from 'discord.js';
+import * as EmailValidator from 'email-validator';
 
 export function formatSize(bytes: number): string {
   const kilo = bytes / 1024;
@@ -12,18 +13,13 @@ export function formatSize(bytes: number): string {
 }
 
 export function isValidEmail(email: string): boolean {
-  const pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-  return pattern.test(email.toLowerCase());
+  return EmailValidator.validate(email);
 }
 
-export function getUserFromId(client: AkairoClient, guildId: string, userId: string): GuildMember | null {
-  const guild = client.guilds.cache.get(guildId as Snowflake);
-  if (!guild) return null;
-
-  const member = guild.members.cache.get(userId as Snowflake);
-  if (!member) return null;
-
-  return member;
+export function getUserFromId(client: AkairoClient, guildId: Snowflake, userId: Snowflake): GuildMember | null {
+  const guild = client.guilds.cache.get(guildId);
+  const member = guild?.members.cache.get(userId);
+  return member ?? null;
 }
 
 export function isDMChannel(channel: Channel): channel is DMChannel {

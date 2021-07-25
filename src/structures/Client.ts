@@ -1,5 +1,4 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
-import type { Snowflake } from 'discord.js';
 import { join } from 'path';
 
 import { Logger } from '../utils';
@@ -15,7 +14,7 @@ export class Client extends AkairoClient {
 
   constructor() {
     super(
-      { ownerID: process.env.OWNER_ID as Snowflake },
+      { ownerID: process.env.OWNER_ID },
       {
         intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
         messageCacheLifetime: 21600,

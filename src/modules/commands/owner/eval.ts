@@ -42,7 +42,10 @@ export default class EvalCommand extends Command {
         .setTimestamp();
 
       if (embed.length > 6000) {
-        await message.reply({ content: 'Sorry, the result of that code was too long.' });
+        await message.reply({
+          content: 'Sorry, the result of that code was too long. See the console for the output instead.',
+        });
+        console.log(safeEvaluatedCode);
         return true;
       }
 

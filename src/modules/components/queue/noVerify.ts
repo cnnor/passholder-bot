@@ -1,4 +1,5 @@
 import { MessageComponentInteraction, MessageEmbed } from 'discord.js';
+import type { Snowflake } from 'discord.js';
 import { Component } from '../../../structures';
 import { Embeds, ActionRows, getUserFromId } from '../../../utils';
 
@@ -8,7 +9,7 @@ export default class NoVerifyComponent extends Component {
   }
 
   async exec(interaction: MessageComponentInteraction): Promise<boolean> {
-    const userId = interaction.customId.split('-')[1];
+    const userId = interaction.customId.split('-')[1] as Snowflake;
     const member = getUserFromId(this.client, process.env.GUILD_ID, userId);
 
     if (!member) {

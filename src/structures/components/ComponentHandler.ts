@@ -1,6 +1,8 @@
 import { AkairoHandler, AkairoError } from 'discord-akairo';
 import type { AkairoClient, AkairoHandlerOptions } from 'discord-akairo';
+import type { Channel } from 'discord.js';
 import { Component } from './Component';
+import { isDMChannel } from '../../utils';
 
 export class ComponentHandler extends AkairoHandler {
   constructor(
@@ -32,15 +34,19 @@ export class ComponentHandler extends AkairoHandler {
     this.client.once('ready', () => {
       this.client.on('interactionCreate', async (interaction) => {
         if (!interaction.isMessageComponent()) return;
+        const component = this.modules.find((x) => interaction.customId.includes(x.id)) as Component | undefined;
+        if (!component) return;
+        if (component.dmOnly) {
+          const channel = (interaction.channel ??
+            (await this.client.channels.fetch(interaction.channelId!))) as Channel;
+          if (channel && !isDMChannel(channel)) return;
+        }
 
-        this.modules.forEach(async (module) => {
-          if ((module as Component).customId.test(interaction.customId)) {
-            await (module as Component).exec(interaction);
-            return true;
-          }
-
-          return false;
-        });
+        try {
+          await component.exec(interaction);
+        } catch (e) {
+          this.client.log.error(`Interaction with ID ${component.customId} failed! ${e}`);
+        }
       });
     });
   }

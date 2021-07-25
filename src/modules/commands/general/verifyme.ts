@@ -11,20 +11,15 @@ export default class VerifyMeCommand extends Command {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async exec(message: Message): Promise<boolean> {
-    message.member
-      ?.send({
+  async exec(message: Message): Promise<void> {
+    try {
+      const m = await message.author.send({
         embeds: [Embeds.initialPrompt],
         components: [ActionRows.welcome],
-      })
-      .then(() => {
-        message.delete();
-      })
-      .catch(() => {
-        message.reply('Sorry, I had some trouble sending you a message. Are your DMs open?');
-        return false;
       });
-
-    return true;
+      m.delete();
+    } catch (e) {
+      message.reply('Sorry, I had some trouble sending you a message. Are your DMs open?');
+    }
   }
 }
