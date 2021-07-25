@@ -45,7 +45,7 @@ export class Client extends AkairoClient {
 
     this.commandHandler = new CommandHandler(this, {
       directory: paths.commands,
-      prefix: '~',
+      prefix: process.env.PREFIX,
       commandUtil: true,
     });
 
