@@ -10,7 +10,7 @@ export default class YesVerifyComponent extends Component {
   }
 
   async exec(interaction: MessageComponentInteraction): Promise<boolean> {
-    const userId = interaction.customId.split('-')[1];
+    const userId = interaction.customId.split('-')[1] as Snowflake;
     const member = getUserFromId(this.client, process.env.GUILD_ID, userId);
 
     if (!member) {
@@ -23,26 +23,19 @@ export default class YesVerifyComponent extends Component {
       return false;
     }
 
-    member.roles
-      .add(process.env.ROLE_ID as Snowflake)
-      .then(() => {
-        const oldEmbed = interaction.message.embeds[0] as MessageEmbed;
-        const newEmbed = new MessageEmbed(oldEmbed).setTitle('Verified').setColor('GREEN');
-
-        interaction.update({ embeds: [newEmbed], components: [] });
-        member.send({ embeds: [Embeds.youWereVerified] });
-
-        return false;
-      })
-      .catch((err) => {
-        const embed = new MessageEmbed()
-          .setColor('RED')
-          .setTitle('Error')
-          .setDescription(`Encountered an error while applying the role.\n${codeBlock(err)}`);
-        interaction.reply({ embeds: [embed] });
-
-        return false;
-      });
+    try {
+      await member.roles.add(process.env.ROLE_ID);
+      const oldEmbed = interaction.message.embeds[0] as MessageEmbed;
+      const newEmbed = new MessageEmbed(oldEmbed).setTitle('Verified').setColor('GREEN');
+      await interaction.update({ embeds: [newEmbed], components: [] });
+      await member.send({ embeds: [Embeds.youWereVerified] });
+    } catch (err) {
+      const embed = new MessageEmbed()
+        .setColor('RED')
+        .setTitle('Error')
+        .setDescription(`Encountered an error while applying the role.\n${codeBlock(err)}`);
+      interaction.reply({ embeds: [embed] });
+    }
 
     return true;
   }

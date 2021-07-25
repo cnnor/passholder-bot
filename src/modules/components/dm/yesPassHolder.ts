@@ -1,15 +1,15 @@
 import { DMChannel, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
-import type { MessageComponentInteraction, TextChannel, Message, Snowflake, Channel, User } from 'discord.js';
+import type { MessageComponentInteraction, TextChannel, Message, User } from 'discord.js';
 import { Component } from '../../../structures';
-import { Embeds, ActionRows, isValidEmail, isDMChannel } from '../../../utils';
+import { Embeds, ActionRows, isValidEmail } from '../../../utils';
 
 export default class YesPassHolderComponent extends Component {
   constructor() {
-    super('yesPassHolder', { customId: 'yesPassHolder' });
+    super('yesPassHolder', { customId: 'yesPassHolder', dmOnly: true });
   }
 
   // eslint-disable-next-line class-methods-use-this
-  private async getEmail(interaction: MessageComponentInteraction): Promise<string> {
+  private static async getEmail(interaction: MessageComponentInteraction): Promise<string> {
     return new Promise((resolve, reject) => {
       const channel = interaction.channel as DMChannel;
 
@@ -30,7 +30,7 @@ export default class YesPassHolderComponent extends Component {
   }
 
   private async sendToQueue(user: User, email: string): Promise<void> {
-    const queueChannel = this.client.channels.cache.get(process.env.CHANNEL_ID as Snowflake) as TextChannel;
+    const queueChannel = this.client.channels.cache.get(process.env.CHANNEL_ID) as TextChannel;
 
     const embed = new MessageEmbed()
       .setTitle('Pending Verification')
@@ -49,24 +49,15 @@ export default class YesPassHolderComponent extends Component {
   }
 
   async exec(interaction: MessageComponentInteraction): Promise<boolean> {
-    const channel = interaction.channel
-      ? (interaction.channel as Channel)
-      : ((await this.client.channels.fetch(interaction.channelId as Snowflake)) as Channel);
+    await interaction.update({ embeds: [Embeds.askForEmail], components: [] });
 
-    if (!isDMChannel(channel)) return false;
-
-    interaction.update({ embeds: [Embeds.askForEmail], components: [] });
-
-    this.getEmail(interaction)
-      .then((email) => {
-        this.sendToQueue(interaction.user, email);
-        channel.send({ embeds: [Embeds.waitForVerification] });
-        return true;
-      })
-      .catch(() => {
-        channel.send({ embeds: [Embeds.invalidEmail], components: [ActionRows.retry] });
-        return false;
-      });
+    try {
+      const email = await YesPassHolderComponent.getEmail(interaction);
+      this.sendToQueue(interaction.user, email);
+      interaction.channel!.send({ embeds: [Embeds.waitForVerification] });
+    } catch {
+      interaction.channel!.send({ embeds: [Embeds.invalidEmail], components: [ActionRows.retry] });
+    }
 
     return false;
   }

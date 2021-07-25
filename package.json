@@ -39,6 +39,7 @@
     "discord-akairo": "discord-akairo/discord-akairo#master",
     "discord.js": "^13.0.0-dev.4886ae2.1627214570",
     "dotenv": "^10.0.0",
+    "email-validator": "^2.0.4",
     "pretty-ms": "^7.0.1",
     "tslib": "^2.3.0"
   },

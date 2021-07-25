@@ -1,21 +1,15 @@
 import { MessageComponentInteraction } from 'discord.js';
-import type { Channel, Snowflake } from 'discord.js';
 import { Component } from '../../../structures';
-import { ActionRows, Embeds, isDMChannel } from '../../../utils';
+import { ActionRows, Embeds } from '../../../utils';
 
 export default class NoPassHolderComponent extends Component {
   constructor() {
-    super('noPassHolder', { customId: 'noPassHolder' });
+    super('noPassHolder', { customId: 'noPassHolder', dmOnly: true });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async exec(interaction: MessageComponentInteraction): Promise<boolean> {
-    const channel = interaction.channel
-      ? (interaction.channel as Channel)
-      : ((await this.client.channels.fetch(interaction.channelId as Snowflake)) as Channel);
-
-    if (!isDMChannel(channel)) return false;
-
-    interaction.update({ embeds: [Embeds.isNotPassHolder], components: [ActionRows.change] });
+    await interaction.update({ embeds: [Embeds.isNotPassHolder], components: [ActionRows.change] });
     return true;
   }
 }
