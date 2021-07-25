@@ -27,8 +27,8 @@ export default class YesVerifyComponent extends Component {
       await member.roles.add(process.env.ROLE_ID);
       const oldEmbed = interaction.message.embeds[0] as MessageEmbed;
       const newEmbed = new MessageEmbed(oldEmbed).setTitle('Verified').setColor('GREEN');
-      interaction.update({ embeds: [newEmbed], components: [] });
-      member.send({ embeds: [Embeds.youWereVerified] });
+      await interaction.update({ embeds: [newEmbed], components: [] });
+      await member.send({ embeds: [Embeds.youWereVerified] });
     } catch (err) {
       const embed = new MessageEmbed()
         .setColor('RED')

@@ -12,12 +12,13 @@ export default class GuildMemberAddListener extends Listener {
 
   // eslint-disable-next-line class-methods-use-this
   async exec(member: GuildMember): Promise<void> {
-    await member.send({ embeds: [Embeds.welcome] }).catch(() => null);
-    await member
-      .send({
+    try {
+      await member.send({ embeds: [Embeds.welcome] });
+      await member.send({
         embeds: [Embeds.initialPrompt],
         components: [ActionRows.welcome],
-      })
-      .catch(() => null);
+      });
+      // eslint-disable-next-line no-empty
+    } catch {}
   }
 }
