@@ -7,14 +7,18 @@ export const Colors = {
 
 export const ActionRows = {
   welcome: new MessageActionRow().addComponents([
-    new MessageButton().setCustomId('yesPassHolder').setLabel('Yes').setStyle('SUCCESS'),
-    new MessageButton().setCustomId('noPassHolder').setLabel('No').setStyle('SECONDARY'),
+    new MessageButton().setCustomId('yesPassHolder').setLabel('Yes').setStyle('SECONDARY').setEmoji('👍'),
+    new MessageButton().setCustomId('noPassHolder').setLabel('No').setStyle('SECONDARY').setEmoji('👎'),
   ]),
   change: new MessageActionRow().addComponents([
-    new MessageButton().setCustomId('changePassHolder').setLabel('Actually, I am a pass holder!').setStyle('SECONDARY'),
+    new MessageButton()
+      .setCustomId('changePassHolder')
+      .setLabel('Actually, I am a pass holder!')
+      .setStyle('SECONDARY')
+      .setEmoji('🥳'),
   ]),
   retry: new MessageActionRow().addComponents([
-    new MessageButton().setCustomId('changePassHolder').setLabel('Retry').setStyle('SECONDARY'),
+    new MessageButton().setCustomId('changePassHolder').setLabel('Retry').setStyle('SECONDARY').setEmoji('🔁'),
   ]),
 };
 
@@ -64,7 +68,8 @@ export const Embeds = {
     .setColor(Colors.FIVEABLE),
   invalidEmail: new MessageEmbed()
     .setTitle('Whoops!')
-    .setDescription("That doesn't seem to be a valid email address. Would you like to retry?"),
+    .setDescription("That doesn't seem to be a valid email address. Would you like to retry?")
+    .setColor(Colors.FIVEABLE),
   youWereVerified: new MessageEmbed()
     .setTitle("You're verified!")
     .setDescription(
