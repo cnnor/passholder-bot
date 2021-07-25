@@ -8,6 +8,7 @@
     "outDir": "build",
     "rootDir": "src",
     "removeComments": true,
+    "types": ["node"],
     "importHelpers": true,
 
     "strict": true,
