@@ -1,5 +1,5 @@
 import type { AkairoClient } from 'discord-akairo';
-import type { GuildMember, Snowflake, Channel, DMChannel } from 'discord.js';
+import type { GuildMember, Snowflake, Channel, DMChannel, Message, MessageEmbed, TextChannel } from 'discord.js';
 import * as EmailValidator from 'email-validator';
 
 export function formatSize(bytes: number): string {
@@ -24,4 +24,36 @@ export function getUserFromId(client: AkairoClient, guildId: Snowflake, userId: 
 
 export function isDMChannel(channel: Channel): channel is DMChannel {
   return channel.type === 'DM';
+}
+
+export async function promptString(
+  channel: TextChannel | DMChannel,
+  id: string,
+  embed?: MessageEmbed
+): Promise<string | undefined> {
+  // prompt and ask for input
+  if (embed) await channel.send({ embeds: [embed] });
+  const prompt = await channel
+    .awaitMessages({
+      filter: (pM: Message) => pM.author.id === id,
+      max: 1,
+      time: 60000,
+      errors: ['time'],
+    })
+    .then((x) => x.first())
+    .catch((x) => x.first());
+  return prompt?.content;
+}
+
+export async function promptQuestion(
+  channel: TextChannel | DMChannel,
+  id: string,
+  embed?: MessageEmbed
+): Promise<string> {
+  const input = await promptString(channel, id, embed);
+  // input will only be blank if a person does not answer in time
+  if (!input) throw new Error('TIMEOUT');
+  // if input is too long
+  if (input.length > 75) throw new Error('TOO_LONG');
+  return input;
 }

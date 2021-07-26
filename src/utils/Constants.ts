@@ -23,6 +23,14 @@ export const ActionRows = {
 };
 
 export const Embeds = {
+  tooLong: new MessageEmbed()
+    .setColor('RED')
+    .setTitle('Oh no! Your input was too large!')
+    .setDescription('Would you like to retry?'),
+  outOfTime: new MessageEmbed()
+    .setColor('RED')
+    .setTitle('Oh no, you ran out of time!')
+    .setDescription('Would you like to retry?'),
   welcome: new MessageEmbed()
     .setTitle('Hey, welcome to the Fiveable College Program Community!')
     .setDescription('Before you dive-in... [this will be finished later].')
