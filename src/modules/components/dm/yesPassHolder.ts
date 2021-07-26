@@ -17,7 +17,7 @@ export default class YesPassHolderComponent extends Component {
         return message.author.id === interaction.user.id;
       };
 
-      channel.awaitMessages({ max: 1, filter }).then((responses) => {
+      channel.awaitMessages({ max: 1, filter, time: 60000 }).then((responses) => {
         const email = responses.first();
 
         if (email && isValidEmail(email.content)) {
@@ -56,7 +56,7 @@ export default class YesPassHolderComponent extends Component {
       this.sendToQueue(interaction.user, email);
       interaction.channel!.send({ embeds: [Embeds.waitForVerification] });
     } catch {
-      interaction.channel!.send({ embeds: [Embeds.invalidEmail], components: [ActionRows.retry] });
+      interaction.channel!.send({ embeds: [Embeds.invalidResponse], components: [ActionRows.retry] });
     }
 
     return false;

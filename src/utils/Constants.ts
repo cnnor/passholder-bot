@@ -66,7 +66,7 @@ export const Embeds = {
       "Our interns will work on getting you verified, and we'll send you a message once that's done. In the meantime, please enjoy some of our free events and resources."
     )
     .setColor(Colors.FIVEABLE),
-  invalidEmail: new MessageEmbed()
+  invalidResponse: new MessageEmbed()
     .setTitle('Whoops!')
     .setDescription("That doesn't seem to be a valid email address. Would you like to retry?")
     .setColor(Colors.FIVEABLE),
