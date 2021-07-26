@@ -20,8 +20,8 @@ export default class YesPassHolderComponent extends Component {
       .setTimestamp();
 
     const buttons = new MessageActionRow().addComponents([
-      new MessageButton().setCustomId(`yesVerify-${user.id}`).setLabel('Verify').setStyle('SUCCESS'),
-      new MessageButton().setCustomId(`noVerify-${user.id}`).setLabel('Deny').setStyle('DANGER'),
+      new MessageButton().setCustomId(`yesVerify-${user.id}`).setLabel('Verify').setStyle('SECONDARY').setEmoji('👍'),
+      new MessageButton().setCustomId(`noVerify-${user.id}`).setLabel('Deny').setStyle('SECONDARY').setEmoji('👎'),
     ]);
 
     queueChannel.send({ embeds: [embed], components: [buttons] });
