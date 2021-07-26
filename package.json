@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "14.17.3"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "yarn run lint --fix",
