@@ -14,7 +14,7 @@
     "precommit": "yarn run lint:fix && yarn run format:fix",
     "build": "rm -rf ./build/ && tsc",
     "start:dev": "nodemon --config nodemon.json",
-    "start:prod": "yarn run build && node ./build/index.js",
+    "start:prod": "node ./build/index.js",
     "postinstall": "husky install"
   },
   "jest": {
@@ -38,7 +38,7 @@
     "@discordjs/builders": "^0.2.0",
     "@sapphire/discord.js-utilities": "^2.0.2",
     "discord-akairo": "discord-akairo/discord-akairo#master",
-    "discord.js": "^13.0.0-dev.4886ae2.1627214570",
+    "discord.js": "^13.0.0-dev.4886ae2.1627300977",
     "dotenv": "^10.0.0",
     "email-validator": "^2.0.4",
     "pretty-ms": "^7.0.1",
