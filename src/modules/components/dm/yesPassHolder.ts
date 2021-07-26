@@ -43,7 +43,7 @@ export default class YesPassHolderComponent extends Component {
       } else if (e.message === 'TOO_LONG') {
         embeds = [Embeds.tooLong];
       } else {
-        embeds = [Embeds.invalidEmail];
+        embeds = [Embeds.invalidResponse];
       }
 
       interaction.channel!.send({ embeds, components: [ActionRows.retry] });
